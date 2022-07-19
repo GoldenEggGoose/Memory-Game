@@ -1,7 +1,15 @@
 .card .front{
+    transition: all ease 0.2s;
     position: absolute;
     transform: rotateY(90deg);
 }
 .flipped .front{
+    transition-delay: 0.2s;
     transform: rotateY(0deg);
+}
+.card .back{
+    transition: all ease 0.2s;
+}
+.flipped .back{
+    transform: rotateY(90deg);
 }

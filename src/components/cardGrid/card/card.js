@@ -8,12 +8,13 @@ export const Card = (props) => {
   };
   return (
     <div key={id} className={`card ${isFlipped ? "flipped" : ""}`} >
-      <img src={src} alt="cardFaceImage" className="front"/>
+      <img src={src} alt="cardFaceImage" className="front" draggable={false}/>
       <img
         src={coverImage}
         alt="cardCoverImage"
         className="back"
         onClick={handleClick}
+        draggable={false}
       />
     </div>
   );

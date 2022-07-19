@@ -9,6 +9,7 @@ import sword from "./assets/img/sword-1.png";
 import CardGrid from "./components/cardGrid/cardGrid";
 
 let imagePaths = [helmet, potion, ring, scroll, shield, sword];
+
 const shuffle = (array) => {
   let shuffledCards = [...array, ...array]
     .sort((a, b) => {
@@ -23,11 +24,17 @@ const shuffle = (array) => {
 const App = () => {
   const [shuffledCards, setShuffledCards] = useState(shuffle(imagePaths));
   const doNewGame = () =>{setShuffledCards(shuffle(imagePaths))}
+  const [counter,setCounter] = useState(0)
+
+  const incrementCount =()=>{
+    setCounter(counter+1)
+  }
   return (
     <div className="App">
       <h1>Memory Game</h1>
       <button id="newGame" onClick={doNewGame}>New Game</button>
-      <CardGrid cards = {shuffledCards}/>
+      <p>Number of turns : {counter}</p>
+      <CardGrid cards = {shuffledCards} incrementCount = {incrementCount}/>
     </div>
   );
 }
