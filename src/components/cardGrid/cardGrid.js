@@ -6,25 +6,43 @@ const CardGrid = (props) => {
   const [cards, setCards] = useState();
   const [card1, setCard1] = useState();
   const [card2, setCard2] = useState();
-  const incrementCount = props.incrementCount
-  
+  const [disabled, setDisabled] = useState(false);
+  const {incrementCount,setGameOver} = props;
+
   const resetChoice = () => {
     setCard1();
     setCard2();
-    incrementCount()
+    incrementCount();
   };
+  useEffect(() => {}, [cards]);
   useEffect(() => {
     if (card2) {
       if (card1.src !== card2.src) {
-        setCards(
-          cards.map((card) => {
-            if (card.id === card1.id || card.id === card2.id) {
-              return { ...card, isFlipped: false };
+        setTimeout(() => {
+          setCards(
+            cards.map((card) => {
+              if (card.id === card1.id || card.id === card2.id) {
+                return { ...card, isFlipped: false };
+              } else {
+                return card;
+              }
+            })
+          );
+          setDisabled(false);
+        }, 1000);
+      } else {
+        if (
+          cards.every((card) => {
+            if (card.isFlipped === true) {
+              return true;
             } else {
-              return card;
+              return false;
             }
           })
-        );
+        ){
+          setGameOver(true)
+        }
+          setDisabled(false);
       }
       resetChoice();
     }
@@ -39,6 +57,7 @@ const CardGrid = (props) => {
   const handleChoice = (card) => {
     if (card1) {
       setCard2(card);
+      setDisabled(true);
     } else {
       setCard1(card);
     }
@@ -52,17 +71,17 @@ const CardGrid = (props) => {
       })
     );
   };
-  useEffect(() => {
-    if (card1 && card2) {
-      if (card1.src === card2.src) {
-        console.log("hi");
-      }
-    }
-  }, [card1, card2]);
   return (
     <div className="cardGrid">
       {cards?.map((card) => {
-        return <Card onClick={handleChoice} card={card} key={card.id} />;
+        return (
+          <Card
+            onClick={handleChoice}
+            card={card}
+            key={card.id}
+            disabled={disabled}
+          />
+        );
       })}
     </div>
   );

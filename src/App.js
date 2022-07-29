@@ -23,20 +23,31 @@ const shuffle = (array) => {
 
 const App = () => {
   const [shuffledCards, setShuffledCards] = useState(shuffle(imagePaths));
-  const doNewGame = () =>{setShuffledCards(shuffle(imagePaths))}
-  const [counter,setCounter] = useState(0)
+  const [counter, setCounter] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
-  const incrementCount =()=>{
-    setCounter(counter+1)
-  }
+  const doNewGame = () => {
+    setShuffledCards(shuffle(imagePaths));
+    setCounter(0);
+    setGameOver(false)
+  };
+  const incrementCount = () => {
+    setCounter(counter + 1);
+  };
   return (
     <div className="App">
       <h1>Memory Game</h1>
-      <button id="newGame" onClick={doNewGame}>New Game</button>
+      <button id="newGame" onClick={doNewGame}>
+        New Game
+      </button>
       <p>Number of turns : {counter}</p>
-      <CardGrid cards = {shuffledCards} incrementCount = {incrementCount}/>
+      {gameOver ? (
+        <h2>All Cards Matched</h2>
+      ) : (
+        <CardGrid cards={shuffledCards} incrementCount={incrementCount} setGameOver = {setGameOver}/>
+      )}
     </div>
   );
-}
+};
 
 export default App;
